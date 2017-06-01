@@ -10,18 +10,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170601010452) do
-
-  create_table "sessions", force: :cascade do |t|
-    t.string   "session_name"
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.integer  "instructor_id"
-    t.integer  "instructor_mb_id"
-    t.integer  "session_mb_id"
-    t.string   "location"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-  end
+ActiveRecord::Schema.define(version: 0) do
 
 end
