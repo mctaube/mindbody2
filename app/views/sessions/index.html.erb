@@ -1,0 +1,40 @@
+<div class="page-header">
+  <h1>
+    Sessions
+    <a href="/sessions/new" class="btn btn-lg btn-success">New Session</a>
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Session name</th>
+        <th>Start time</th>
+        <th>End time</th>
+        <th>Instructor</th>
+        <th>Instructor mb</th>
+        <th>Session mb</th>
+        <th>Location</th>
+        <th>Actions</th>
+      </tr>
+
+      <% @sessions.each do |session| %>
+      <tr>
+        <td><%= session.session_name %></td>
+        <td><%= session.start_time %></td>
+        <td><%= session.end_time %></td>
+        <td><%= session.instructor_id %></td>
+        <td><%= session.instructor_mb_id %></td>
+        <td><%= session.session_mb_id %></td>
+        <td><%= session.location %></td>
+        <td>
+          <a href="/sessions/<%= session.id %>" class="btn btn-primary">Show</a>
+          <a href="/sessions/<%= session.id %>/edit" class="btn btn-warning">Edit</a>
+          <a href="/delete_session/<%= session.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

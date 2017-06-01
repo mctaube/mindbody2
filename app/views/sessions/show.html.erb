@@ -1,0 +1,43 @@
+<div class="page-header">
+  <h3>Session #<%= @session.id %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12 mb-2">
+    <dl class="dl-horizontal">
+      <dt>Session name</dt>
+      <dd><%= @session.session_name %></dd>
+
+      <dt>Start time</dt>
+      <dd><%= @session.start_time %></dd>
+
+      <dt>End time</dt>
+      <dd><%= @session.end_time %></dd>
+
+      <dt>Instructor</dt>
+      <dd><%= @session.instructor_id %></dd>
+
+      <dt>Instructor mb</dt>
+      <dd><%= @session.instructor_mb_id %></dd>
+
+      <dt>Session mb</dt>
+      <dd><%= @session.session_mb_id %></dd>
+
+      <dt>Location</dt>
+      <dd><%= @session.location %></dd>
+
+    </dl>
+
+    <div class="btn-group btn-group-justified">
+      <a href="/sessions" class="btn btn-primary">
+        Back
+      </a>
+      <a href="/sessions/<%= @session.id %>/edit" class="btn btn-warning">
+        Edit
+      </a>
+      <a href="/delete_session/<%= @session.id %>" class="btn btn-danger" rel="nofollow">
+        Delete
+      </a>
+    </div>
+  </div>
+</div>
