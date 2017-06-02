@@ -1,0 +1,54 @@
+<!-- Validation failure messages -->
+<% if @rsvp.errors.any? %>
+  <% @rsvp.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Add Rsvp</h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/create_rsvp" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for session_id -->
+      <div class="form-group">
+        <label for="session_id" class="control-label">
+          Session
+        </label>
+
+        <input type="text" id="session_id" name="session_id" placeholder="Session" class="form-control" value="<%= @rsvp.session_id %>">
+      </div>
+
+      <!-- Label and input for resident_id -->
+      <div class="form-group">
+        <label for="resident_id" class="control-label">
+          Resident
+        </label>
+
+        <input type="text" id="resident_id" name="resident_id" placeholder="Resident" class="form-control" value="<%= @rsvp.resident_id %>">
+      </div>
+
+      <!-- Label and input for confirmed -->
+      <div class="checkbox">
+        <label for="confirmed">
+          <input type="checkbox" id="confirmed" name="confirmed" value="1" <%= "checked" if @rsvp.confirmed %>>
+          Confirmed
+        </label>
+      </div>
+
+      <button class="btn btn-success">
+        Create Rsvp
+      </button>
+      or
+      <a href="/rsvps">Cancel</a>
+    </form>
+  </div>
+</div>

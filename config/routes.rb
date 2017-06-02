@@ -1,4 +1,38 @@
 Rails.application.routes.draw do
+  # Routes for the Rsvp resource:
+  # CREATE
+  get "/rsvps/new", :controller => "rsvps", :action => "new"
+  post "/create_rsvp", :controller => "rsvps", :action => "create"
+
+  # READ
+  get "/rsvps", :controller => "rsvps", :action => "index"
+  get "/rsvps/:id", :controller => "rsvps", :action => "show"
+
+  # UPDATE
+  get "/rsvps/:id/edit", :controller => "rsvps", :action => "edit"
+  post "/update_rsvp/:id", :controller => "rsvps", :action => "update"
+
+  # DELETE
+  get "/delete_rsvp/:id", :controller => "rsvps", :action => "destroy"
+  #------------------------------
+
+  # Routes for the Resident resource:
+  # CREATE
+  get "/residents/new", :controller => "residents", :action => "new"
+  post "/create_resident", :controller => "residents", :action => "create"
+
+  # READ
+  get "/residents", :controller => "residents", :action => "index"
+  get "/residents/:id", :controller => "residents", :action => "show"
+
+  # UPDATE
+  get "/residents/:id/edit", :controller => "residents", :action => "edit"
+  post "/update_resident/:id", :controller => "residents", :action => "update"
+
+  # DELETE
+  get "/delete_resident/:id", :controller => "residents", :action => "destroy"
+  #------------------------------
+
   # Routes for the Session resource:
   # CREATE
   get "/sessions/new", :controller => "sessions", :action => "new"

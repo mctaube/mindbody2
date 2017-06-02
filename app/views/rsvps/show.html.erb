@@ -1,0 +1,31 @@
+<div class="page-header">
+  <h3>Rsvp #<%= @rsvp.id %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12 mb-2">
+    <dl class="dl-horizontal">
+      <dt>Session</dt>
+      <dd><%= @rsvp.session_id %></dd>
+
+      <dt>Resident</dt>
+      <dd><%= @rsvp.resident_id %></dd>
+
+      <dt>Confirmed</dt>
+      <dd><%= @rsvp.confirmed %></dd>
+
+    </dl>
+
+    <div class="btn-group btn-group-justified">
+      <a href="/rsvps" class="btn btn-primary">
+        Back
+      </a>
+      <a href="/rsvps/<%= @rsvp.id %>/edit" class="btn btn-warning">
+        Edit
+      </a>
+      <a href="/delete_rsvp/<%= @rsvp.id %>" class="btn btn-danger" rel="nofollow">
+        Delete
+      </a>
+    </div>
+  </div>
+</div>

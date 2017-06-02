@@ -43,50 +43,61 @@ class SessionsController < ApplicationController
   end
 
   def show
+    # Identify the session
     @session = Session.find(params[:id])
 
+    # For use in getting RSVP Info from API
     id = @session.session_mb_id
 
+    # API PULL from MINDBODY
     site_ids = { 'int' => -99 }
     source_credentials = { 'SourceName' => 'HelloHealthy', 'Password' => 'SifyL3S5cXk8P1VTT1m5u6cPWXA=', 'SiteIDs' => site_ids }
     user_credentials = { 'Username' => 'Siteowner', 'Password' => 'apitest1234', 'SiteIDs' => site_ids }
     http_request = { 'SourceCredentials' => source_credentials, 'UserCredentials' => user_credentials, 'ClassID' => id }
     params = { 'Request' => http_request }
+
     #Create Savon client using default settings
     http_client = Savon.client(wsdl: "https://api.mindbodyonline.com/0_5/ClassService.asmx?WSDL")
     result = http_client.call(:get_class_visits,  message: params)
 
+    # Get to the the RSVP array in the information pulled
 
-    # FILL MY SESSIONS DATABASE WITH NEW DATA
-    @rsvps = result.body[:get_class_visits_response][:get_class_visits_result][:class][:visits][:visit]
+    if
+      result.body[:get_class_visits_response][:get_class_visits_result][:class][:visits] == nil
+    else
+      @rsvps = result.body[:get_class_visits_response][:get_class_visits_result][:class][:visits][:visit]
 
-    resident_mb_id = visits[0][:client][:unique_id]
+      # LOOK FOR RESIDENTS IN RESIDENT DATABASE AND ADD THEM IF NOT THERE
+      @rsvps.each do |rsvped|
+        resident = Resident.find_by(:resident_mb_id => rsvped[:client][:unique_id])
+        if resident != nil # the resident is already in the DB
 
+        else #if not there than add them
+          resident = Resident.new
+          resident.first_name = rsvped[:client][:first_name]
+          resident.last_name = rsvped[:client][:last_name]
+          resident.resident_mb_id = rsvped[:client][:unique_id]
+          resident.save
 
-    @rsvps.each do |rsvp|
-      @resident = Resident.find_by(:resident_mb_id => rsvp[:client][:unique_id])
-      if @resident != nil # the session is already in the DB
-        # check if any of the info has changed - UPDATES FOR LATER
-        # if it has, update the DB - UPDATES FOR LATER
-      else
-        new_resident = Resident.new
-        new_resident.first_name = rsvp[:client][:first_name]
-        new_resident.last_name = rsvp[:client][:last_name]
-        new_resident.save
+          # FILL MY RSVP DATABASE WITH NEW DATA
+          # rsvp_check = Rsvp.where("rsvp.session_id" => @session.id, "rsvp.resident_id" => resident.id)
+          # if #check to see if already in the DB Destroy all previous entries for the session
+          #   rsvp_check != nil #the combo already exists
+
+          # else #if not there than add them
+          new_rsvp = Rsvp.new
+          new_rsvp.session_id = @session.id
+          new_rsvp.resident_id = Resident.find_by(:resident_mb_id => rsvp[:client][:unique_id]).id
+          new_rsvp.comfirmed = true
+          new_rsvp.save
+
+        end
       end
 
-      new_rsvp = Rsvp.new
-      new_rsvp.session_id = @session.id
-      new_rsvp.resident_id = @resident.id
-      new_rsvp.save
 
+
+      render("sessions/show.html.erb")
     end
-
-
-
-
-
-    render("sessions/show.html.erb")
   end
 
   def new

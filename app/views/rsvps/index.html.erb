@@ -1,0 +1,32 @@
+<div class="page-header">
+  <h1>
+    Rsvps
+    <a href="/rsvps/new" class="btn btn-lg btn-success">New Rsvp</a>
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Session</th>
+        <th>Resident</th>
+        <th>Confirmed</th>
+        <th>Actions</th>
+      </tr>
+
+      <% @rsvps.each do |rsvp| %>
+      <tr>
+        <td><%= rsvp.session_id %></td>
+        <td><%= rsvp.resident_id %></td>
+        <td><%= rsvp.confirmed %></td>
+        <td>
+          <a href="/rsvps/<%= rsvp.id %>" class="btn btn-primary">Show</a>
+          <a href="/rsvps/<%= rsvp.id %>/edit" class="btn btn-warning">Edit</a>
+          <a href="/delete_rsvp/<%= rsvp.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
