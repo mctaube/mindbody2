@@ -17,9 +17,9 @@ class SessionsController < ApplicationController
     result_classes = http_client.call(:get_classes, message: params)
 
     # FILL MY SESSIONS DATABASE WITH NEW DATA
-    @sessions = result_classes.body[:get_classes_response][:get_classes_result][:classes][:class]
+    session_pull = result_classes.body[:get_classes_response][:get_classes_result][:classes][:class]
 
-    @sessions.each do |one_session|
+    session_pull.each do |one_session|
       current_session = Session.find_by(:session_mb_id => one_session[:id])
       if current_session != nil # the session is already in the DB
         # check if any of the info has changed - UPDATES FOR LATER
@@ -65,10 +65,10 @@ class SessionsController < ApplicationController
     if
       result.body[:get_class_visits_response][:get_class_visits_result][:class][:visits] == nil
     else
-      @rsvps = result.body[:get_class_visits_response][:get_class_visits_result][:class][:visits][:visit]
+      rsvp_pull = result.body[:get_class_visits_response][:get_class_visits_result][:class][:visits][:visit]
 
       # LOOK FOR RESIDENTS IN RESIDENT DATABASE AND ADD THEM IF NOT THERE
-      @rsvps.each do |rsvped|
+      rsvp_pull.each do |rsvped|
         resident = Resident.find_by(:resident_mb_id => rsvped[:client][:unique_id])
         if resident != nil # the resident is already in the DB
 
@@ -78,26 +78,27 @@ class SessionsController < ApplicationController
           resident.last_name = rsvped[:client][:last_name]
           resident.resident_mb_id = rsvped[:client][:unique_id]
           resident.save
+        end
+      end
+      # FILL MY RSVP DATABASE WITH NEW DATA
+      rsvp_pull.each do |rsvped|
+        @resident= Resident.find_by(:resident_mb_id => rsvped[:client][:unique_id])
+        rsvp_check = Rsvp.where("rsvp.session_id" => @session.id, "rsvp.resident_id" => @resident.id)
+        if #check to see if already in the DB Destroy all previous entries for the session
+          rsvp_check != nil #the combo already exists
 
-          # FILL MY RSVP DATABASE WITH NEW DATA
-          # rsvp_check = Rsvp.where("rsvp.session_id" => @session.id, "rsvp.resident_id" => resident.id)
-          # if #check to see if already in the DB Destroy all previous entries for the session
-          #   rsvp_check != nil #the combo already exists
-
-          # else #if not there than add them
+        else #if not there than add them
           new_rsvp = Rsvp.new
           new_rsvp.session_id = @session.id
-          new_rsvp.resident_id = Resident.find_by(:resident_mb_id => rsvp[:client][:unique_id]).id
-          new_rsvp.comfirmed = true
+          new_rsvp.resident_id = @resident.id
+          new_rsvp.confirmed =
           new_rsvp.save
+
 
         end
       end
-
-
-
-      render("sessions/show.html.erb")
     end
+    render("sessions/show.html.erb")
   end
 
   def new
