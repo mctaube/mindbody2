@@ -1,4 +1,8 @@
 class ResidentsController < ApplicationController
+  def first_name_with_last_name
+    "#{:first_name}: #{:last_name}"
+  end
+
   def index
     @residents = Resident.all
 
@@ -66,4 +70,7 @@ class ResidentsController < ApplicationController
       redirect_to(:back, :notice => "Resident deleted.")
     end
   end
+
+
+
 end
