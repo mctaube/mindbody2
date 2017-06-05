@@ -64,7 +64,43 @@ class SessionsController < ApplicationController
 
     if #checking if nil and if so then doesn't do the rest because there are no RSVPS
       result.body[:get_class_visits_response][:get_class_visits_result][:class][:visits] == nil
-    else
+
+
+    elsif
+      #checks to see if it's a hash or array.  If there is only 1 rsvp it is a Hash if it's 2 or more it's an array
+      result.body[:get_class_visits_response][:get_class_visits_result][:class][:visits][:visit].class == Hash
+
+      #pulls the data into a variable "rsvp_pull"
+      rsvp_pull = result.body[:get_class_visits_response][:get_class_visits_result][:class][:visits][:visit]
+
+      # LOOK FOR RESIDENTS IN RESIDENT DATABASE AND ADD THEM IF NOT THERE
+      check_resident = Resident.find_by(:resident_mb_id => rsvp_pull[:client][:unique_id])
+      if check_resident != nil # the resident is already in the DB
+
+      else #if not there than add them
+        new_resident = Resident.new
+        new_resident.first_name = rsvp_pull[:client][:first_name]
+        new_resident.last_name = rsvp_pull[:client][:last_name]
+        new_resident.resident_mb_id = rsvp_pull[:client][:unique_id]
+        new_resident.save
+      end
+
+      @residents = Resident.find_by(:resident_mb_id => rsvp_pull[:client][:unique_id])
+      rsvp_check = Rsvp.find_by("rsvps.session_id" => @session.id, "rsvps.resident_id" => @residents.id)
+
+      if #check to see if already in the RSVP DB
+        rsvp_check != nil #the combo already exists no need to add
+
+      else #if not there than add the RSVP
+        new_rsvp = Rsvp.new
+        new_rsvp.session_id = @session.id
+        new_rsvp.resident_id = @residents.id
+        new_rsvp.confirmed =
+        new_rsvp.save
+      end
+
+
+    else #if it's an array then have to do each do to loop through it
       rsvp_pull = result.body[:get_class_visits_response][:get_class_visits_result][:class][:visits][:visit]
 
       # LOOK FOR RESIDENTS IN RESIDENT DATABASE AND ADD THEM IF NOT THERE
@@ -76,9 +112,10 @@ class SessionsController < ApplicationController
           new_resident = Resident.new
           new_resident.first_name = rsvped[:client][:first_name]
           new_resident.last_name = rsvped[:client][:last_name]
-          new_resident.resident_mb_id = rsvped[:client][:unique_id]
+          new_resident.resident_mb_id = rsvped[:client][:unique_id].to_i
           new_resident.save
         end
+
       end
 
       # LOOK FOR Session ID and Resident ID Combo in RSVP DATABASE AND ADD THEM IF NOT THERE
