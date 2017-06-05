@@ -37,7 +37,7 @@ class SessionsController < ApplicationController
       end
     end
 
-    @sessions = Session.all
+    @sessions = Session.all.order("start_time DESC")
 
     render("sessions/index.html.erb")
   end
@@ -136,6 +136,10 @@ class SessionsController < ApplicationController
       end #end of each.do
     end #end of if/else
 
+    #to pull all the RSVPs in the show page that are applicable to this session
+    @session_rsvps = Rsvp.where("rsvps.session_id" => @session.id)
+
+    # render("rsvps/index.html.erb")
     render("sessions/show.html.erb")
   end #end of show
 

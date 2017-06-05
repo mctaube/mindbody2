@@ -10,6 +10,7 @@
     <table class="table table-striped table-hover">
       <tr>
         <th>Session name</th>
+        <th>Date</th>
         <th>Start time</th>
         <th>End time</th>
         <th>Instructor</th>
@@ -22,8 +23,9 @@
       <% @sessions.each do |session| %>
       <tr>
         <td><%= session.session_name %></td>
-        <td><%= session.start_time %></td>
-        <td><%= session.end_time %></td>
+        <td><%= session.start_time.strftime("%m-%d-%Y") %></td>
+        <td><%= session.start_time.strftime("%l:%M %p") %></td>
+        <td><%= session.end_time.strftime("%l:%M %p") %></td>
         <td><%= session.instructor_id %></td>
         <td><%= session.instructor_mb_id %></td>
         <td><%= session.session_mb_id %></td>
