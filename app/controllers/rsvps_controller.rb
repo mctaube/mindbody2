@@ -48,8 +48,11 @@ class RsvpsController < ApplicationController
 
     save_status = @rsvp.save
 
+    @session = Session.find_by(:id => @rsvp.session_id)
+    @session_rsvps = Rsvp.where("rsvps.session_id" => @session.id)
+
     if save_status == true
-      redirect_to("/rsvps/#{@rsvp.id}", :notice => "Rsvp updated successfully.")
+      render "/sessions/show.html.erb", :notice => 'RSVP updated successfully.'
     else
       render("rsvps/edit.html.erb")
     end
