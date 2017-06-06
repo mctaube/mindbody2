@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   # Routes for the Rsvp resource:
   # CREATE
   get "/rsvps/new", :controller => "rsvps", :action => "new"
@@ -49,6 +50,8 @@ Rails.application.routes.draw do
   # DELETE
   get "/delete_session/:id", :controller => "sessions", :action => "destroy"
   #------------------------------
+
+  root to: "sessions#index"
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
