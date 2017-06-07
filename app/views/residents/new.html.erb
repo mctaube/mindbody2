@@ -38,15 +38,11 @@
 
       <!-- Label and input for resident_mb_id -->
       <div class="form-group">
-        <label for="resident_mb_id" class="control-label">
-          Resident mb
-        </label>
-
-        <input type="text" id="resident_mb_id" name="resident_mb_id" placeholder="Resident mb" class="form-control" value="<%= @resident.resident_mb_id %>">
+        <input type="hidden" id="resident_mb_id" name="resident_mb_id" placeholder="Resident mb" class="form-control" value="<%= @resident.resident_mb_id %>">
       </div>
 
       <button class="btn btn-success">
-        Create Resident
+        Input Resident
       </button>
       or
       <a href="/residents">Cancel</a>

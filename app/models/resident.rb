@@ -1,6 +1,9 @@
 class Resident < ApplicationRecord
 
-has_many :rsvps, :dependent => :destroy
+  validates :first_name, :presence => true
+  validates :last_name, :presence => true
+
+  has_many :rsvps, :dependent => :destroy
 
 
 end

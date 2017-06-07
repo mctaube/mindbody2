@@ -17,8 +17,8 @@
 
       <% @rsvps.each do |rsvp| %>
       <tr>
-        <td><%= rsvp.session_id %></td>
-        <td><%= rsvp.resident_id %></td>
+        <td><%= rsvp.session.session_name %></td>
+        <td><%= rsvp.resident.full_name %></td>
         <td><%= rsvp.confirmed %></td>
         <td>
           <a href="/rsvps/<%= rsvp.id %>" class="btn btn-primary">Show</a>
