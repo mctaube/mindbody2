@@ -1,5 +1,11 @@
 class SessionsController < ApplicationController
 
+  def create
+    @session = Session.new
+    @Session.title = params[:title]
+    @event.held_on = Chronic.parse(params[:held_on])
+    @event.save
+  end
 
   def index
     start_date = DateTime.now
