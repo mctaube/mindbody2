@@ -17,8 +17,6 @@
           <th>Start time</th>
           <th>End time</th>
           <th>Instructor</th>
-          <th>Instructor mb</th>
-          <th>Session mb</th>
           <th>Location</th>
           <th>Actions</th>
         </tr>
@@ -29,13 +27,10 @@
           <td><%= session.start_time.strftime("%m-%d-%Y") %></td>
           <td><%= session.start_time.strftime("%l:%M %p") %></td>
           <td><%= session.end_time.strftime("%l:%M %p") %></td>
-          <td><%= session.instructor_id %></td>
-          <td><%= session.instructor_mb_id %></td>
-          <td><%= session.session_mb_id %></td>
+          <td><%= session.instructor.first_name%> <%= session.instructor.last_name %></td>
           <td><%= session.location %></td>
           <td>
-            <a href="/sessions/<%= session.id %>" class="btn btn-primary">Show</a>
-            <a href="/sessions/<%= session.id %>/edit" class="btn btn-warning">Edit</a>
+            <a href="/sessions/<%= session.id %>" class="btn btn-primary">See RSVPs</a>
             <a href="/delete_session/<%= session.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
           </td>
         </tr>

@@ -16,7 +16,7 @@
       <dd><%= @session.location %></dd>
 
       <dt>Instructor</dt>
-      <dd><%= @session.instructor_id %> FIXXXX</dd>
+      <dd><%= @session.instructor.first_name %> <%= @session.instructor.last_name%></dd>
 
     </dl>
 
@@ -94,7 +94,7 @@
 <div class="container">
   <div class="row">
     <h6> <strong> Add New Resident</strong>  </h6>
-    <a href="/residents/new" role="button" class="btn btn-info"> Add New Resident If Not In Dropdown</a>
+    <a href="/residents/new" role="button" class="btn btn-primary"> Add New Resident If Not In Dropdown</a>
   </div>
 </div>
 <a href="/sessions/" class="btn btn-warning pull-right">Back</a>

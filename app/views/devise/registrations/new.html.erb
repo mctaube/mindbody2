@@ -8,7 +8,7 @@
 
   <!-- Get the info from API -->
   <% site_ids = { 'int' => -99 }
-  source_credentials = { 'SourceName' => 'HelloHealthy', 'Password' => 'SifyL3S5cXk8P1VTT1m5u6cPWXA=', 'SiteIDs' => site_ids  }
+  source_credentials = { 'SourceName' => 'HelloHealthy', 'Password' => 'Esppg59NvacwZPz64VvzYanRhPQ=', 'SiteIDs' => site_ids  }
   user_credentials = { 'Username' => 'Siteowner', 'Password' => 'apitest1234', 'SiteIDs' => site_ids }
   http_request = { 'SourceCredentials' => source_credentials, 'UserCredentials' => user_credentials  }
   params = { 'Request' => http_request }
@@ -34,6 +34,17 @@
 
   <% end %>
   <%= f.select :mindbody_id, options_for_select(instructors), :class => 'genForm_dropBox', :include_blank => true %>
+</div>
+
+<div class="field">
+  <%= f.label Enter Preferred First Name %><br />
+  <%= f.text_field :first_name, autofocus: true %>
+</div>
+
+
+<div class="field">
+  <%= f.label Last Name %><br />
+  <%= f.text_field :last_name, autofocus: true %>
 </div>
 
 <div class="field">

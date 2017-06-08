@@ -4,7 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :rsvps 
-  has_many :sessions, :foreign_key => "instructor_id", :dependent => :nullify
+  has_many :rsvps
+
+  has_many :sessions, :foreign_key => "instructor_id"
 
 end

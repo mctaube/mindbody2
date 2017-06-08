@@ -3,9 +3,9 @@ class SessionsController < ApplicationController
 
   def index
     start_date = DateTime.now
-    end_date = DateTime.now
+    end_date = DateTime.now+1
     site_ids = { 'int' => -99 }
-    source_credentials = { 'SourceName' => 'HelloHealthy', 'Password' => 'SifyL3S5cXk8P1VTT1m5u6cPWXA=', 'SiteIDs' => site_ids }
+    source_credentials = { 'SourceName' => 'HelloHealthy', 'Password' => 'Esppg59NvacwZPz64VvzYanRhPQ=', 'SiteIDs' => site_ids }
     user_credentials = { 'Username' => 'Siteowner', 'Password' => 'apitest1234', 'SiteIDs' => site_ids }
     http_request = { 'SourceCredentials' => source_credentials, 'UserCredentials' => user_credentials, 'StartDateTime' => start_date, 'EndDateTime' => end_date}
     params = { 'Request' => http_request }
@@ -21,23 +21,29 @@ class SessionsController < ApplicationController
 
     session_pull.each do |one_session|
       current_session = Session.find_by(:session_mb_id => one_session[:id])
-      if current_session != nil # the session is already in the DB
+      instructor_is_user = User.find_by(:mindbody_id => one_session[:staff][:id])
+      if current_session != nil
+
+        # the session is already in the DB & the instructor ID matches then don't do anything
         # check if any of the info has changed - UPDATES FOR LATER
         # if it has, update the DB - UPDATES FOR LATER
       else
-        new_session = Session.new
-        new_session.session_name = one_session[:class_description][:name]
-        new_session.start_time = one_session[:start_date_time]
-        new_session.end_time = one_session[:end_date_time]
-        new_session.instructor_id = one_session[:staff][:id]
-        new_session.instructor_mb_id = one_session[:staff][:id]
-        new_session.session_mb_id = one_session[:id]
-        new_session.location = one_session[:location][:name]
-        new_session.save
+        if instructor_is_user == nil #if instructor can't be found then don't pull it
+        else
+          new_session = Session.new
+          new_session.session_name = one_session[:class_description][:name]
+          new_session.start_time = one_session[:start_date_time]
+          new_session.end_time = one_session[:end_date_time]
+          new_session.instructor_mb_id = one_session[:staff][:id]
+          new_session.instructor_id = instructor_is_user.id
+          new_session.session_mb_id = one_session[:id]
+          new_session.location = one_session[:location][:name]
+          new_session.save
+        end
       end
     end
 
-    @sessions = Session.all.order("start_time DESC")
+    @sessions = Session.where({:instructor_id => current_user.id}).order("start_time DESC")
 
     render("sessions/index.html.erb")
   end
@@ -51,7 +57,7 @@ class SessionsController < ApplicationController
 
     # API PULL from MINDBODY
     site_ids = { 'int' => -99 }
-    source_credentials = { 'SourceName' => 'HelloHealthy', 'Password' => 'SifyL3S5cXk8P1VTT1m5u6cPWXA=', 'SiteIDs' => site_ids }
+    source_credentials = { 'SourceName' => 'HelloHealthy', 'Password' => 'Esppg59NvacwZPz64VvzYanRhPQ=', 'SiteIDs' => site_ids }
     user_credentials = { 'Username' => 'Siteowner', 'Password' => 'apitest1234', 'SiteIDs' => site_ids }
     http_request = { 'SourceCredentials' => source_credentials, 'UserCredentials' => user_credentials, 'ClassID' => id }
     params = { 'Request' => http_request }
@@ -136,8 +142,8 @@ class SessionsController < ApplicationController
       end #end of each.do
     end #end of if/else
 
-#to pull all the RSVPs in the show page     
-    @session_rsvps = Rsvps.where("rsvps.session_id" => @session.id)
+    #to pull all the RSVPs in the show page
+    @session_rsvps = Rsvp.where("rsvps.session_id" => @session.id)
 
     # render("rsvps/index.html.erb")
     render("sessions/show.html.erb")
