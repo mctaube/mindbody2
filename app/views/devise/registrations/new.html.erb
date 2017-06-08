@@ -4,18 +4,36 @@
 <%= devise_error_messages! %>
 
 <div class="field">
-  <%= f.label :first_name %> <br />
-  <%=  f.text_field :first_name %>
-</div>
+  <%= f.label "find name" %><br />
 
-<div class="field">
-  <%= f.label :last_name %> <br />
-  <%=  f.text_field :last_name %>
-</div>
+  <!-- Get the info from API -->
+  <% site_ids = { 'int' => -99 }
+  source_credentials = { 'SourceName' => 'HelloHealthy', 'Password' => 'SifyL3S5cXk8P1VTT1m5u6cPWXA=', 'SiteIDs' => site_ids  }
+  user_credentials = { 'Username' => 'Siteowner', 'Password' => 'apitest1234', 'SiteIDs' => site_ids }
+  http_request = { 'SourceCredentials' => source_credentials, 'UserCredentials' => user_credentials  }
+  params = { 'Request' => http_request }
+  #Create Savon client using default settings
+  http_client = Savon.client(wsdl: "https://api.mindbodyonline.com/0_5/StaffService.asmx?WSDL")
 
-<div class="field">
-  <%= f.label :mindbody_id %> <br />
-  <%= f.number_field :mindbody_id %>
+  # CALL API
+  result = http_client.call(:get_staff, message: params)
+
+  # DO SOMETHING WITH THE RESULTS
+  staff = result.body[:get_staff_response][:get_staff_result][:staff_members][:staff] %>
+
+  <% instructors = [] %>
+
+  <%   staff.each do |staffinfo| %>
+  <%   mb_id = staffinfo[:id] %>
+  <%  fname = staffinfo[:name] %>
+  <%  firstname = staffinfo[:first_name] %>
+  <%  lastname = staffinfo[:last_name] %>
+
+  <!-- For each instructor, add them to the array -->
+  <% instructors.push [fname, mb_id] %>
+
+  <% end %>
+  <%= f.select :mindbody_id, options_for_select(instructors), :class => 'genForm_dropBox', :include_blank => true %>
 </div>
 
 <div class="field">
@@ -40,5 +58,6 @@
   <%= f.submit "Sign up" %>
 </div>
 <% end %>
+
 
 <%= render "devise/shared/links" %>

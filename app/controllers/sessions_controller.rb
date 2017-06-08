@@ -136,8 +136,8 @@ class SessionsController < ApplicationController
       end #end of each.do
     end #end of if/else
 
-    #to pull all the RSVPs in the show page that are applicable to this session
-    @session_rsvps = Rsvp.where("rsvps.session_id" => @session.id)
+#to pull all the RSVPs in the show page     
+    @session_rsvps = Rsvps.where("rsvps.session_id" => @session.id)
 
     # render("rsvps/index.html.erb")
     render("sessions/show.html.erb")
