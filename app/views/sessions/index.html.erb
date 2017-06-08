@@ -1,3 +1,23 @@
+<form action="/sessions" method="post">
+  <!-- Hidden input for authenticity token to protect from forgery -->
+  <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+  <!-- Label and input for start_time -->
+  <div class="form-group">
+    <label for="start_time" class="control-label">
+      Start time
+    </label>
+
+    <div class='input-group date' id='datetimepicker1'>
+    <input type='text' class="form-control" name="start_time1" id="start_time1">
+    <span class="input-group-addon">
+      <span class="glyphicon glyphicon-calendar"></span>
+    </span>
+  </div>
+  <button class="btn btn-success">
+    start date
+  </button>
+</form>
 
 <div class="container">
   <div class="header">
@@ -39,3 +59,9 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(function () {
+    $('#datetimepicker1').datetimepicker();
+  });
+</script>

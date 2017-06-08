@@ -1,14 +1,16 @@
 class SessionsController < ApplicationController
 
-  def create
-    @session = Session.new
-    @Session.title = params[:title]
-    @event.held_on = Chronic.parse(params[:held_on])
-    @event.save
-  end
-
   def index
-    start_date = DateTime.now
+
+    if
+      Chronic.parse(params[:start_time1]) != nil
+      start_date = Chronic.parse(params[:start_time1])
+    else
+
+      start_date = DateTime.now
+
+    end
+
     end_date = DateTime.now+1
     site_ids = { 'int' => -99 }
     source_credentials = { 'SourceName' => 'HelloHealthy', 'Password' => 'Esppg59NvacwZPz64VvzYanRhPQ=', 'SiteIDs' => site_ids }

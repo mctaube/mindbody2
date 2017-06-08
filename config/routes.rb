@@ -41,6 +41,7 @@ Rails.application.routes.draw do
 
   # READ
   get "/sessions", :controller => "sessions", :action => "index"
+  post "/sessions", :controller => "sessions", :action => "index"
   get "/sessions/:id", :controller => "sessions", :action => "show"
 
   # UPDATE

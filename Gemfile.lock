@@ -196,6 +196,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  bcrypt
   bootstrap3-datetimepicker-rails (~> 4.7.14)
   byebug
   chronic
