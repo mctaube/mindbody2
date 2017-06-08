@@ -1,16 +1,12 @@
 class SessionsController < ApplicationController
 
   def index
+    #Pull the DatePicker in
+    start_time1 = Chronic.parse(params[:start_time1])
+    #convert it to DateTime Mode
+    # ???
 
-    if
-      Chronic.parse(params[:start_time1]) != nil
-      start_date = Chronic.parse(params[:start_time1])
-    else
-
-      start_date = DateTime.now
-
-    end
-
+    start_date = DateTime.now-1
     end_date = DateTime.now+1
     site_ids = { 'int' => -99 }
     source_credentials = { 'SourceName' => 'HelloHealthy', 'Password' => 'Esppg59NvacwZPz64VvzYanRhPQ=', 'SiteIDs' => site_ids }
