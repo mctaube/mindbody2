@@ -1,4 +1,10 @@
 GIT
+  remote: https://github.com/codahale/bcrypt-ruby.git
+  revision: 23b0517e20e7ddf2e733c1bcdb22b0b12166f042
+  specs:
+    bcrypt (3.1.11)
+
+GIT
   remote: https://github.com/raghubetina/starter_generators
   revision: 48fa7a4fbe4eb90ecfe05a133a7d7550167308f8
   specs:
@@ -48,7 +54,6 @@ GEM
       gyoku (>= 0.4.0)
       nokogiri
     arel (7.1.4)
-    bcrypt (3.1.11-x86-mingw32)
     bindex (0.5.0)
     bootstrap3-datetimepicker-rails (4.7.14)
       momentjs-rails (>= 2.8.1)
@@ -196,7 +201,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
-  bcrypt
+  bcrypt!
   bootstrap3-datetimepicker-rails (~> 4.7.14)
   byebug
   chronic

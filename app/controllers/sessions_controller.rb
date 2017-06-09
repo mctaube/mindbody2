@@ -1,13 +1,23 @@
 class SessionsController < ApplicationController
 
   def index
-    #Pull the DatePicker in
-    start_time1 = Chronic.parse(params[:start_time1])
-    #convert it to DateTime Mode
-    # ???
+    if
+      Chronic.parse(params[:start_time]) == nil
+      Chronic.parse(params[:end_time]) == nil
+      @start_time = Date.today
+      @end_time = Date.today
 
-    start_date = DateTime.now-1
-    end_date = DateTime.now+1
+    else
+      @start_time = Chronic.parse(params[:start_time])
+      @end_time = Chronic.parse(params[:end_time])
+    end
+
+    @dt = DateTime.now
+    @et = DateTime.now
+
+
+    start_date = DateTime.now-5
+    end_date = DateTime.now+5
     site_ids = { 'int' => -99 }
     source_credentials = { 'SourceName' => 'HelloHealthy', 'Password' => 'Esppg59NvacwZPz64VvzYanRhPQ=', 'SiteIDs' => site_ids }
     user_credentials = { 'Username' => 'Siteowner', 'Password' => 'apitest1234', 'SiteIDs' => site_ids }
@@ -47,7 +57,9 @@ class SessionsController < ApplicationController
       end
     end
 
+
     @sessions = Session.where({:instructor_id => current_user.id}).order("start_time DESC")
+    # @sessions = sessions1.where({:start_date_time >= @start_time and :end_date_time <= @end_time", startdate, enddate"})
 
     render("sessions/index.html.erb")
   end
