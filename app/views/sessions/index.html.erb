@@ -15,7 +15,7 @@
     <div class='col-md-5'>
       <div class="form-group">
         <div class='input-group date' id='datetimepicker1' >
-          <input type='text' class="form-control" name="start_time" id="start_time">
+          <input type='text' class="form-control" name="start_time1" id="start_time1">
           <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
           </span>
@@ -25,7 +25,7 @@
     <div class='col-md-5'>
       <div class="form-group">
         <div class='input-group date' id='datetimepicker2'>
-          <input type='text' class="form-control" name="end_time" id="end_time">
+          <input type='text' class="form-control" name="end_time1" id="end_time1">
           <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
           </span>
@@ -38,12 +38,11 @@
   </form>
 </div>
 
-<%= @start_time.strftime('%m%d%y') %>
-<%= @end_time.strftime('%m%d%y') %>
-<%= @dt.strftime('%m%d%y') %>
-<%= @et.strftime('%m%d%y') %>
-<%= @start_time - @dt %>
-<%= @end_time - @et %>
+
+
+<%= @d %>
+<%= @d %>
+
 
 <div class="container">
   <div class="row">

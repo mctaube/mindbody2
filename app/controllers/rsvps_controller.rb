@@ -1,6 +1,9 @@
 class RsvpsController < ApplicationController
 
   def index
+
+    @s = Session.where({:instructor_id => current_user.id})
+    @r = Rsvp.where("rsvps.session_id" => @s.id)
     @rsvps = Rsvp.all
 
     render("rsvps/index.html.erb")

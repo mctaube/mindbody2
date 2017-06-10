@@ -1,23 +1,21 @@
 class SessionsController < ApplicationController
 
   def index
+
     if
-      Chronic.parse(params[:start_time]) == nil
-      Chronic.parse(params[:end_time]) == nil
-      @start_time = Date.today
-      @end_time = Date.today
+      Chronic.parse(params[:start_time1]) != nil || Chronic.parse(params[:end_time1]) != nil
+      @beg = Chronic.parse(params[:start_time1])
+      @end = Chronic.parse(params[:end_time1])
 
     else
-      @start_time = Chronic.parse(params[:start_time])
-      @end_time = Chronic.parse(params[:end_time])
+
+      @beg = Time.now.midnight - 1.day
+      @end = Time.now.midnight + 2.day
+
     end
 
-    @dt = DateTime.now
-    @et = DateTime.now
-
-
-    start_date = DateTime.now-5
-    end_date = DateTime.now+5
+    start_date = DateTime.now-6
+    end_date = DateTime.now+6
     site_ids = { 'int' => -99 }
     source_credentials = { 'SourceName' => 'HelloHealthy', 'Password' => 'Esppg59NvacwZPz64VvzYanRhPQ=', 'SiteIDs' => site_ids }
     user_credentials = { 'Username' => 'Siteowner', 'Password' => 'apitest1234', 'SiteIDs' => site_ids }
@@ -34,22 +32,39 @@ class SessionsController < ApplicationController
     session_pull = result_classes.body[:get_classes_response][:get_classes_result][:classes][:class]
 
     session_pull.each do |one_session|
+      # the session is already in the DB & the instructor ID matches then don't need to add a new session
       current_session = Session.find_by(:session_mb_id => one_session[:id])
-      instructor_is_user = User.find_by(:mindbody_id => one_session[:staff][:id])
+      instructor_user = User.find_by(:mindbody_id => one_session[:staff][:id])
       if current_session != nil
+        # check if any of the info has changed or instructor id needs to be found
+        if
+          #can only change the session name in the sandbox so not able to test the other cateagories
+          one_session[:class_description][:name] == current_session.session_name
 
-        # the session is already in the DB & the instructor ID matches then don't do anything
-        # check if any of the info has changed - UPDATES FOR LATER
+
+          #if it had a change then updated it
+        else
+          @session_update = current_session
+          @session_update.session_name = one_session[:class_description][:name]
+          @session_update.start_time = one_session[:start_date_time]
+          @session_update.end_time = one_session[:end_date_time]
+          @session_update.instructor_id = instructor_user.id
+          @session_update.instructor_mb_id = one_session[:staff][:id]
+          @session_update.session_mb_id = current_session.session_mb_id
+          @session_update.location = one_session[:location][:name]
+          save_status = @session_update.save
+        end
+
         # if it has, update the DB - UPDATES FOR LATER
       else
-        if instructor_is_user == nil #if instructor can't be found then don't pull it
+        if instructor_user == nil #if instructor can't be found then don't pull it
         else
           new_session = Session.new
           new_session.session_name = one_session[:class_description][:name]
           new_session.start_time = one_session[:start_date_time]
           new_session.end_time = one_session[:end_date_time]
           new_session.instructor_mb_id = one_session[:staff][:id]
-          new_session.instructor_id = instructor_is_user.id
+          new_session.instructor_id = instructor_user.id
           new_session.session_mb_id = one_session[:id]
           new_session.location = one_session[:location][:name]
           new_session.save
@@ -57,9 +72,9 @@ class SessionsController < ApplicationController
       end
     end
 
+    #pull sessions based on instructor logged in and the dates they prefer
+    @sessions = Session.where({:instructor_id => current_user.id}).where(:start_time => (@beg)..@end).order("start_time DESC")
 
-    @sessions = Session.where({:instructor_id => current_user.id}).order("start_time DESC")
-    # @sessions = sessions1.where({:start_date_time >= @start_time and :end_date_time <= @end_time", startdate, enddate"})
 
     render("sessions/index.html.erb")
   end

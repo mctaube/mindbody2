@@ -22,6 +22,7 @@ class ResidentsController < ApplicationController
   end
 
   def create
+
     @resident = Resident.new
 
     @resident.first_name = params[:first_name]
@@ -31,7 +32,7 @@ class ResidentsController < ApplicationController
     save_status = @resident.save
 
     if save_status == true
-      redirect_to("/residents/#{@resident.id}", :notice => "Resident created successfully.")
+      redirect_to("/sessions", :notice => "Resident created successfully.")
     else
       render("residents/new.html.erb")
     end
