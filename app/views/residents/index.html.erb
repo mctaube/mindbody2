@@ -6,13 +6,13 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-6">
     <table class="table table-striped table-hover">
-      <tr>
+      <tr class="success">
         <th>First name</th>
         <th>Last name</th>
         <th>Resident mb</th>
-        <th>Actions</th>
+
       </tr>
 
       <% @residents.each do |resident| %>
@@ -20,10 +20,7 @@
         <td><%= resident.first_name %></td>
         <td><%= resident.last_name %></td>
         <td><%= resident.resident_mb_id %></td>
-        <td>
-          <a href="/residents/<%= resident.id %>/edit" class="btn btn-warning">Edit</a>
-          <a href="/delete_resident/<%= resident.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
-        </td>
+
       </tr>
       <% end %>
     </table>

@@ -33,17 +33,17 @@
   <% instructors.push [fname, mb_id] %>
 
   <% end %>
-  <%= f.select :mindbody_id, options_for_select(instructors), :class => 'genForm_dropBox', :include_blank => true %>
+  <%= f.select :mindbody_id, options_for_select(instructors.sort), :class => 'genForm_dropBox', :include_blank => true %>
 </div>
 
 <div class="field">
-  <%= f.label Enter Preferred First Name %><br />
+  <%= f.label :first_name %><br />
   <%= f.text_field :first_name, autofocus: true %>
 </div>
 
 
 <div class="field">
-  <%= f.label Last Name %><br />
+  <%= f.label :last_name %><br />
   <%= f.text_field :last_name, autofocus: true %>
 </div>
 

@@ -44,13 +44,13 @@
 
   <!-- create a table to show the results of RSVPS -->
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-9">
       <table class="table table-striped table-hover">
         <tr>
           <th>First Name</th>
           <th>Last Name</th>
-          <th>Confirmed</th>
-              <th></th>
+          <th></th>
+          <th>Confirmation</th>
         </tr>
 
         <!-- Loop through the Session RSVPS to list them all out and press botton to confirm they attended-->
@@ -68,14 +68,20 @@
               <!-- input for resident_id -->
               <input type="hidden" id="resident_id" name="resident_id" placeholder="Resident" class="form-control" value="<%= rsvps.resident_id %>">
               <!-- Label and input for confirmed -->
-              <input type="checkbox" id="confirmed" name="confirmed" value="1" <%= "checked" if rsvps.confirmed %>>
-            </td>
-            <td>
+              <input type="hidden" id="confirmed" name="confirmed" value="1" <%= "checked" if rsvps.confirmed %>>
               <button class="btn btn-success">
-                Update Rsvp
+                Check In
               </button>
             </td>
           </form>
+          <td>
+            <% if %>
+            <% rsvps.confirmed == true %>
+            Checked In!
+            <% else  %>
+            <% end %>
+          </td>
+
 
         </tr>
         <% end %>
@@ -117,14 +123,16 @@
       </div>
     </form>
   </div>
+
 </div>
 
-<div class="container">
+
   <div class="row">
-    <div class="col-sm-2">
-      <a href="/residents/new" role="button" class="btn btn-primary"> - Add a Resident to the Dropdown -</a>
-    </div>
-    <a href="/sessions/" class="btn btn-primary pull-right">Back</a>
-  </div>
+    <div class="col-sm-9">
+      <div class="col-sm-2">
+        <a href="/residents/new" role="button" class="btn btn-primary"> - Add a Resident to the Dropdown -</a>
+      </div>
 
-</div>
+      <a href="/sessions/" class="btn btn-primary pull-right">Back</a>
+    </div>
+  </div>
