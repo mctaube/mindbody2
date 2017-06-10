@@ -3,8 +3,7 @@ class RsvpsController < ApplicationController
   def index
 
     @s = Session.where({:instructor_id => current_user.id})
-    @r = Rsvp.where("rsvps.session_id" => @s.id)
-    @rsvps = Rsvp.all
+    @rsvps = Rsvp.where(:session_id => @s)
 
     render("rsvps/index.html.erb")
   end
@@ -34,7 +33,7 @@ class RsvpsController < ApplicationController
     @session_rsvps = Rsvp.where("rsvps.session_id" => @session.id)
 
     if save_status == true
-      render "/sessions/show.html.erb", :notice => 'RSVP updated successfully.'
+      render "/sessions/show.html.erb", :notice => "RSVP updated successfully."
     else
       render("rsvps/new.html.erb")
     end

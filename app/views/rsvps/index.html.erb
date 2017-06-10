@@ -1,34 +1,37 @@
-<div class="page-header">
-  <h1>
-    Rsvps
-    <a href="/rsvps/new" class="btn btn-lg btn-success">New Rsvp</a>
-  </h1>
+<div class="container">
+  <div class="header">
+    <h3>
+      My RSVPs
+    </h3>
+  </div>
 </div>
 
-<%= @r.first %>
+<div class= "container">
+  <div class="row">
+    <div class="col-md-6">
+      <table class="table table-striped table-hover">
+        <tr>
+          <th>Session</th>
+          <th>Resident</th>
+          <th>Confirmed</th>
 
-<div class="row">
-  <div class="col-md-12">
-    <table class="table table-striped table-hover">
-      <tr>
-        <th>Session</th>
-        <th>Resident</th>
-        <th>Confirmed</th>
-        <th>Actions</th>
-      </tr>
+        </tr>
 
-      <% @rsvps.each do |rsvp| %>
-      <tr>
+        <% @rsvps.each do |rsvp| %>
+        <tr>
 
-        <td><%= rsvp.resident.full_name %></td>
-        <td><%= rsvp.confirmed %></td>
-        <td>
-          <a href="/rsvps/<%= rsvp.id %>" class="btn btn-primary">Show</a>
-          <a href="/rsvps/<%= rsvp.id %>/edit" class="btn btn-warning">Edit</a>
-          <a href="/delete_rsvp/<%= rsvp.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
-        </td>
-      </tr>
-      <% end %>
-    </table>
+          <td><%= rsvp.session.session_name %></td>
+          <td><%= rsvp.resident.full_name %></td>
+          <td>
+            <% if %>
+            <% rsvp.confirmed == true %>
+            Yes
+            <% else  %>
+            <% end %>
+          </td>
+        </tr>
+        <% end %>
+      </table>
+    </div>
   </div>
 </div>
