@@ -38,11 +38,9 @@ class SessionsController < ApplicationController
       if current_session != nil
         # check if any of the info has changed or instructor id needs to be found
         if
-          #can only change the session name in the sandbox so not able to test the other cateagories
-          one_session[:class_description][:name] == current_session.session_name
+          #can only change the session name and instructor in the sandbox so not able to test the other cateagories therefore those aren't covered yet
+        (one_session[:class_description][:name] == current_session.session_name) || (one_session[:staff][:id] == current_session.instructor_mb_id)
 
-
-          #if it had a change then updated it
         else
           @session_update = current_session
           @session_update.session_name = one_session[:class_description][:name]
