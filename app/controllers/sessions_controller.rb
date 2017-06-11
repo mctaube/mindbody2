@@ -14,8 +14,8 @@ class SessionsController < ApplicationController
 
     end
 
-    start_date = DateTime.now-10
-    end_date = DateTime.now+10
+    start_date = DateTime.now-15
+    end_date = DateTime.now+15
     site_ids = { 'int' => -99 }
     source_credentials = { 'SourceName' => 'HelloHealthy', 'Password' => 'Esppg59NvacwZPz64VvzYanRhPQ=', 'SiteIDs' => site_ids }
     user_credentials = { 'Username' => 'Siteowner', 'Password' => 'apitest1234', 'SiteIDs' => site_ids }

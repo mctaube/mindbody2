@@ -3,7 +3,7 @@ class RsvpsController < ApplicationController
   def index
 
     @s = Session.where({:instructor_id => current_user.id})
-    @rsvps = Rsvp.where(:session_id => @s)
+    @rsvps = Rsvp.where(:session_id => @s).order("created_at DESC")
 
     render("rsvps/index.html.erb")
   end
